@@ -6,7 +6,7 @@ Feature: add new address war1
     #Then check if the data is correct
     Then check if the data is correct <alias>,<address>,<city>,<zip>,<country>,<phone>
   And will delete the above address
-   # And will check if the address has been removed
+    And will check if the address has been removed
 
     Examples:
       | alias    | address    | city   | zip            | country           | phone       |

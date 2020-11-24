@@ -43,30 +43,31 @@ public class WarZadanie1 {
         pass.submit();
         WebElement addressesWindow = driver.findElement(By.xpath("//*[@id='addresses-link']|//*[@id='address-link']"));
         addressesWindow.click();
-        WebElement creatNewAddress=driver.findElement(By.cssSelector("[data-link-action='add-address']"));
+        WebElement creatNewAddress = driver.findElement(By.cssSelector("[data-link-action='add-address']"));
         creatNewAddress.click();
 
-    }@And("the logged in user adds a new address(.*),(.*),(.*),(.*),(.*),(.*)")
-    public void Addaddress(String alias,String address,String city,String zip,String country ,String phone){
-        WebElement aliasInput=driver.findElement(By.name("alias"));
+    }
+
+    @And("the logged in user adds a new address(.*),(.*),(.*),(.*),(.*),(.*)")
+    public void Addaddress(String alias, String address, String city, String zip, String country, String phone) {
+        WebElement aliasInput = driver.findElement(By.name("alias"));
         aliasInput.clear();
         aliasInput.sendKeys(alias);
 
-        WebElement cityInput=driver.findElement(By.name("city"));
+        WebElement cityInput = driver.findElement(By.name("city"));
         cityInput.clear();
         cityInput.sendKeys(city);
 
-        WebElement zipInput= driver.findElement(By.name("postcode"));
+        WebElement zipInput = driver.findElement(By.name("postcode"));
         zipInput.clear();
         zipInput.sendKeys(zip);
 
-        WebElement phoneInput=driver.findElement(By.name("phone"));
+        WebElement phoneInput = driver.findElement(By.name("phone"));
         phoneInput.clear();
         phoneInput.sendKeys(phone);
 
 
-
-        WebElement addressInput=driver.findElement(By.name("address1"));
+        WebElement addressInput = driver.findElement(By.name("address1"));
         addressInput.clear();
         addressInput.sendKeys(address);
 
@@ -74,7 +75,7 @@ public class WarZadanie1 {
         roledropdown.selectByVisibleText(country);
 
 
-        WebElement  save=driver.findElement(By.xpath("//*[@id=\"content\"]/div/div/form/footer/button"));
+        WebElement save = driver.findElement(By.xpath("//*[@id=\"content\"]/div/div/form/footer/button"));
         save.click();
 
     }
@@ -87,7 +88,7 @@ public class WarZadanie1 {
 //   }
 
     @Then("^check if the data is correct (.*),(.*),(.*),(.*),(.*),(.*)$")
-    public void checkIfTheDataIsCorrectAliasAddressCityZipCountryPhone(String alias,String address,String city,String zip,String country ,String phone) {
+    public void checkIfTheDataIsCorrectAliasAddressCityZipCountryPhone(String alias, String address, String city, String zip, String country, String phone) {
         WebElement lastAddress = driver.findElement(By.xpath("(//article)[last()]"));
         String addressText = lastAddress.getText();
         Assert.assertTrue(addressText.contains(alias));
@@ -97,11 +98,22 @@ public class WarZadanie1 {
         Assert.assertTrue(addressText.contains(country));
         Assert.assertTrue(addressText.contains(phone));
     }
+
     @And("will delete the above address")
-    public void deleteaddress(){
+    public void deleteaddress() {
         List<WebElement> addresses = driver.findElements(By.tagName("article"));
         WebElement lastAddress = addresses.get(addresses.size() - 1);
         WebElement deleteFromLastAddress = lastAddress.findElement(By.cssSelector("[data-link-action='delete-address']"));
         deleteFromLastAddress.click();
     }
+
+    @And("will check if the address has been removed")
+    public void checkAddress() {
+       WebElement checkinformation = driver.findElement(By.xpath("//*[@id=\"notifications\"]/div/article/ul/li"));
+       String informationText = checkinformation.getText();
+       Assert.assertTrue(informationText.contains("Address successfully deleted!"));
+
+
+    }
+
 }
